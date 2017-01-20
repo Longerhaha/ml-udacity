@@ -33,9 +33,39 @@ plt.show()
 
 
 
+import time
+from sklearn.metrics import accuracy_score
 
+#try knn algorithm
+from sklearn.neighbors import KNeighborsClassifier
+clf = KNeighborsClassifier(n_neighbors=8)
+'''
+training time cost: 0.0 s
+predict time cost: 0.0 s
+accuracy: 0.944
+knn参数为8的时候准确率超过了93.6%
+'''
+'''
+#try random forest algorithm
+from sklearn.ensemble import RandomForestClassifier
+clf = RandomForestClassifier()
+'''
+'''
+from sklearn.ensemble import AdaBoostClassifier
+clf = AdaBoostClassifier()
+'''
+start_time = time.time()
+clf = clf.fit( features_train,labels_train )
+end_time = time.time()
+print 'training time cost:',round(end_time-start_time,3),'s'
 
+start_time = time.time()
+pred = clf.predict( features_test )
+end_time = time.time()
+print 'predict time cost:',round(end_time-start_time,3),'s'
 
+acc = accuracy_score( labels_test,pred)
+print 'accuracy:',round( acc,3 )
 
 
 try:
