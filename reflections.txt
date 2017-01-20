@@ -1,0 +1,20 @@
+1 什么是pickle?pickle有什么优缺点？
+下面的链接有详细的资料
+http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/00138683221577998e407bb309542d9b6a68d9276bc3dbe000
+序列化：我们把变量从内存中变成可存储或传输的过程称之为序列化，它是一个将任意复杂的对象转成对象的文本或二进制表示的过程。
+import pickle
+f = open('test.txt','wb')#以二进制写入文件
+d = dict(name='Bob', age=20, score=88)
+pickle.dump(d, f)
+f.close()
+
+f = open('dump.txt', 'rb')#以二进制读取文件，以r方式也可以
+origin_data = pickle.load(f)
+f.close()
+
+在Python中叫pickling，在其他语言中也被称之为serialization，marshalling，flattening等等，都是一个意思。序列化之后，就可以把序列化后的内容写入磁盘，或者通过网络传输到别的机器上。
+
+反序列化：反过来，把变量内容从序列化的对象重新读到内存里称之为反序列化，即unpickling。
+Python提供两个模块来实现序列化：cPickle（c语言写的，速度快）和pickle（纯python速度慢）。用的时候，先尝试导入cPickle，如果失败，再导入pickle
+
+缺点：Pickle的问题和所有其他编程语言特有的序列化问题一样，就是它只能用于Python，并且可能不同版本的Python彼此都不兼容，因此，只能用Pickle保存那些不重要的数据，不能成功地反序列化也没关系。
