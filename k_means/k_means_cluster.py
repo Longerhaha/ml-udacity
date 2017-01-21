@@ -24,8 +24,6 @@ def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature
     ### drawing more than five clusters
     colors = ["b", "c", "k", "m", "g"]
     for ii, pp in enumerate(pred):
-        plt.scatter(features[ii][0], features[ii][1], color = colors[pred[ii]])
-
     ### if you like, place red stars over points that are POIs (just for funsies)
     if mark_poi:
         for ii, pp in enumerate(pred):
@@ -78,8 +76,17 @@ try:
 except NameError:
     print "no predictions object named pred found, no clusters to plot"
     
-#feature scaling mini-project
-#salary scaling   
+'''mini-project feature scaling
+哪类缩放被部署了？
+salary scaling 
+原始值为 20 万美元的“salary”特征和原始值为 1 百万美元的“exercised_stock_options”特征的重缩放值会是多少？
+ （确保呈现浮点型而非整数型数字！）
+0.180 0.029
+有人可能会质疑是否必须重缩放财务数据，也许我们希望 10 万美元的工资和 4 千万美元的股票期权之间存在巨大差异。
+如果我们想基于“from_messages”（从一个特定的邮箱帐号发出的电子邮件数）和“salary”来进行集群化会怎样？
+ 在这种情形下，特征缩放是不必要的，还是重要的？
+ 是重要的，因为salary比from_messages大好几个数量级，所以特征缩放是必要的
+'''  
 salary_ = data[:,1]
 minval = numpy.min(salary_[numpy.nonzero(salary_)])
 maxval = numpy.max(salary_[numpy.nonzero(salary_)])
@@ -95,13 +102,13 @@ print 'exercised_stock_options = '
 exercised_stock_options_in = int(raw_input())
 print 'feature scaling on exercised_stock_options',(exercised_stock_options_in-minval)/(maxval-minval)
 '''
-mini-project question 1（去掉53、65行的注释，同时保证51、54、66行的代码是注释着的）
+mini-project k_means question 1（去掉53、65行的注释，同时保证51、54、66行的代码是注释着的）
 #首先你将基于两个财务特征开始执行 K-means，请查看代码并确定代码使用哪些特征进行聚类。
 salary,exercised_stock_options
 将聚类预测存储到名为 pred 的列表，以便脚本底部的 Draw() 命令正常工作。在弹出的散点图中，聚类是否是你预期的？
 不是我所预期的，因为五个点成一类，其余成一类，有点不合聚类的目地。
 
-mini-project question 2（去掉51、54、66行的代码是注释，同时保证53、65的代码是注释着的）
+mini-project k_means question 2（去掉51、54、66行的代码是注释，同时保证53、65的代码是注释着的）
 向特征列表（features_list）中添加第三个特征：“total_payments”。现在使用 3 个，而不是 2 个输入特征重新运行聚类
 （很明显，我们仍然可以只显示原来的 2 个维度）。将聚类绘图与使用 2 个输入特征获取的绘图进行比较。
 是否有任何点切换群集？多少个点？这种使用 3 个牲的新聚类无法通过肉眼加以猜测——必须通过 k-均值算法才能识别它。
