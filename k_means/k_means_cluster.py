@@ -48,25 +48,28 @@ data_dict.pop("TOTAL", 0)
 ### can be any key in the person-level dictionary (salary, director_fees, etc.) 
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
+feature_3 = "total_payments"
 poi  = "poi"
-features_list = [poi, feature_1, feature_2]
+#features_list = [poi, feature_1, feature_2] #question1
+features_list = [poi, feature_1, feature_2 ,feature_3]  #question2
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
-
 
 ### in the "clustering with 3 features" part of the mini-project,
 ### you'll want to change this line to 
 ### for f1, f2, _ in finance_features:
 ### (as it's currently written, the line below assumes 2 features)
-for f1, f2 in finance_features:
+#for f1, f2 in finance_features:   #question1
+for f1, f2, _ in finance_features:  #question2
+
     plt.scatter( f1, f2 )
 plt.show()
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
-
-
-
+from sklearn.cluster import KMeans
+kmeans = KMeans(n_clusters=2, random_state=0).fit(finance_features)
+pred = kmeans.predict(finance_features)
 
 ### rename the "name" parameter when you change the number of features
 ### so that the figure gets saved to a different file
@@ -74,3 +77,54 @@ try:
     Draw(pred, finance_features, poi, mark_poi=False, name="clusters.pdf", f1_name=feature_1, f2_name=feature_2)
 except NameError:
     print "no predictions object named pred found, no clusters to plot"
+    
+#feature scaling mini-project
+#salary scaling   
+salary_ = data[:,1]
+minval = numpy.min(salary_[numpy.nonzero(salary_)])
+maxval = numpy.max(salary_[numpy.nonzero(salary_)])
+print 'salary = '
+sa_in = int(raw_input())
+print 'feature scaling on salary',(sa_in-minval)/(maxval-minval)
+
+#salary exercised_stock_options   
+exercised_stock_options_ = data[:,2]
+minval = numpy.min(exercised_stock_options_[numpy.nonzero(exercised_stock_options_)])
+maxval = numpy.max(exercised_stock_options_[numpy.nonzero(exercised_stock_options_)])
+print 'exercised_stock_options = '
+exercised_stock_options_in = int(raw_input())
+print 'feature scaling on exercised_stock_options',(exercised_stock_options_in-minval)/(maxval-minval)
+'''
+mini-project question 1（去掉53、65行的注释，同时保证51、54、66行的代码是注释着的）
+#首先你将基于两个财务特征开始执行 K-means，请查看代码并确定代码使用哪些特征进行聚类。
+salary,exercised_stock_options
+将聚类预测存储到名为 pred 的列表，以便脚本底部的 Draw() 命令正常工作。在弹出的散点图中，聚类是否是你预期的？
+不是我所预期的，因为五个点成一类，其余成一类，有点不合聚类的目地。
+
+mini-project question 2（去掉51、54、66行的代码是注释，同时保证53、65的代码是注释着的）
+向特征列表（features_list）中添加第三个特征：“total_payments”。现在使用 3 个，而不是 2 个输入特征重新运行聚类
+（很明显，我们仍然可以只显示原来的 2 个维度）。将聚类绘图与使用 2 个输入特征获取的绘图进行比较。
+是否有任何点切换群集？多少个点？这种使用 3 个牲的新聚类无法通过肉眼加以猜测——必须通过 k-均值算法才能识别它。
+
+当你加入一些新的特征时，有测试点移动到不同的聚类中吗？
+有，有四个点移动了。现在只有一个点一类，其余点一类
+通过观察数据列表，“exercised_stock_options”的最大值和最小值分别是多少呢？（忽略“NaN”）
+print numpy.min(exercised_stock_options_[numpy.nonzero(exercised_stock_options_)])
+3285.0
+print numpy.max(exercised_stock_options_[numpy.nonzero(exercised_stock_options_)])
+34348384.0
+“salary”取的最大值和最小值是什么？
+print numpy.min(salary_[numpy.nonzero(salary_)])
+477.0
+print numpy.max(salary_[numpy.nonzero(salary_)])
+1111258.0
+
+特征缩放化之后，哪些数据点改变了聚类？
+有两个点，具体根据题目和你运行出来的图做对比。
+'''
+
+
+
+
+
+
