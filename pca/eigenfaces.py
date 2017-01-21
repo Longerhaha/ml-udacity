@@ -46,7 +46,7 @@ np.random.seed(42)
 # for machine learning we use the data directly (as relative pixel
 # position info is ignored by this model)
 X = lfw_people.data
-n_features = X.shape[1]
+n_features = X.shape[1] #pixes number
 
 # the label to predict is the id of the person
 y = lfw_people.target
@@ -66,7 +66,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random
 ###############################################################################
 # Compute a PCA (eigenfaces) on the face dataset (treated as unlabeled
 # dataset): unsupervised feature extraction / dimensionality reduction
-n_components = 150
+n_components = 200
 
 print "Extracting the top %d eigenfaces from %d faces" % (n_components, X_train.shape[0])
 t0 = time()
@@ -144,3 +144,100 @@ eigenface_titles = ["eigenface %d" % i for i in range(eigenfaces.shape[0])]
 plot_gallery(eigenfaces, eigenface_titles, h, w)
 
 pl.show()
+
+#mini-project quetion 1
+#第一个主成分可以解释多少方差？第二个呢？0.193   0.151
+
+print "the first principal component's varience is %03.f"%pca.explained_variance_ratio_[0]
+print "the second principal component's varience is %03.f"%pca.explained_variance_ratio_[1]
+
+#mini-project quetion 2
+#随着你添加越来越多的主成分作为训练分类器的特征，你认为它的性能会更高还是更低？
+#原图像越多的信息保留下来，性能会更高
+#10的主成分下的F1 score
+'''
+     Ariel Sharon       0.10      0.15      0.12        13
+     Colin Powell       0.45      0.55      0.49        60
+  Donald Rumsfeld       0.29      0.37      0.33        27
+    George W Bush       0.67      0.60      0.63       146
+Gerhard Schroeder       0.19      0.20      0.20        25
+      Hugo Chavez       0.25      0.13      0.17        15
+       Tony Blair       0.48      0.39      0.43        36
+
+      avg / total       0.50      0.48      0.48       322
+'''
+#150的主成分下的F1 score
+'''
+                   precision    recall  f1-score   support
+
+     Ariel Sharon       0.50      0.62      0.55        13
+     Colin Powell       0.76      0.88      0.82        60
+  Donald Rumsfeld       0.73      0.70      0.72        27
+    George W Bush       0.92      0.87      0.89       146
+Gerhard Schroeder       0.77      0.80      0.78        25
+      Hugo Chavez       0.75      0.60      0.67        15
+       Tony Blair       0.88      0.83      0.86        36
+
+      avg / total       0.83      0.83      0.83       322
+'''
+#200主成分
+'''
+                   precision    recall  f1-score   support
+
+     Ariel Sharon       0.57      0.62      0.59        13
+     Colin Powell       0.79      0.88      0.83        60
+  Donald Rumsfeld       0.70      0.70      0.70        27
+    George W Bush       0.92      0.89      0.90       146
+Gerhard Schroeder       0.85      0.92      0.88        25
+      Hugo Chavez       0.75      0.60      0.67        15
+       Tony Blair       0.94      0.86      0.90        36
+
+      avg / total       0.85      0.85      0.85       322
+'''
+#性能开始下降
+#250主成分
+'''
+                   precision    recall  f1-score   support
+
+     Ariel Sharon       0.53      0.69      0.60        13
+     Colin Powell       0.74      0.90      0.81        60
+  Donald Rumsfeld       0.80      0.59      0.68        27
+    George W Bush       0.91      0.90      0.91       146
+Gerhard Schroeder       0.87      0.80      0.83        25
+      Hugo Chavez       0.78      0.47      0.58        15
+       Tony Blair       0.80      0.78      0.79        36
+
+      avg / total       0.83      0.83      0.82       322
+'''
+#500主成分
+'''
+                   precision    recall  f1-score   support
+
+     Ariel Sharon       0.55      0.85      0.67        13
+     Colin Powell       0.65      0.85      0.73        60
+  Donald Rumsfeld       0.59      0.59      0.59        27
+    George W Bush       0.86      0.77      0.81       146
+Gerhard Schroeder       0.64      0.56      0.60        25
+      Hugo Chavez       0.67      0.53      0.59        15
+       Tony Blair       0.77      0.64      0.70        36
+
+      avg / total       0.75      0.73      0.73       322
+'''
+#mini-project quetion 3
+#如果你看到更高的 F1 得分，这意味着分类器的性能更高还是更低？
+#性能更高
+#mini-project quetion 4
+#在使用大量主成分时，是否看到过拟合的任何证据？PCA 维度降低是否有助于提高性能？ 
+# 会，PC 较多时性能会下降，我们可以从F1 score的图看出来，当主成分大于250时性能开始 下降。
+
+#mini-project quetion 4 x
+#选择主成分 选项2
+
+
+
+
+
+
+
+
+
