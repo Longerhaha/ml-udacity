@@ -94,6 +94,7 @@ fea = TVec.get_feature_names()
 
 
 '''
+mini-project text_learning question 2
 41、42行代码未被注释
 删除签名文字（“sara”、“shackleton”、“chris”、“germani”——如果你知道为什么是“germani”而不是“germany”，你将获得加分）
 51-54行代码
@@ -110,5 +111,7 @@ fea[34597] = 'statement'
 上面两个答案是我自己通过代码得出来的，可是与答案不一样，更改了很多次代码还是与答案不合，欢迎指出错误。
 我的微信号：cql80238023
 '''
+
+
 
 
