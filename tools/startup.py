@@ -40,7 +40,9 @@ print
 print "unzipping Enron dataset (this may take a while)"
 import tarfile
 import os
+
 os.chdir("..")
+print os.getcwd()
 tfile = tarfile.open("enron_mail_20150507.tgz", "r:gz")
 tfile.extractall(".")
 
